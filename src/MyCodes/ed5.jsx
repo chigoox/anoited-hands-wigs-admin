@@ -1,7 +1,9 @@
 import { ref, getDownloadURL, uploadBytesResumable, deleteObject   } from "firebase/storage";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc, getDocs } from "firebase/firestore";
 import { AUTH, DATABASE, STORAGE } from '../Config/Firebase';
 import React, { useEffect, useState} from 'react'
+
+  
 
 
 
@@ -34,6 +36,22 @@ async function addProductInfoToDatabase(data,productName){
     const docRef = doc(DATABASE, "Products", productName) 
     await setDoc(docRef, data, { merge: true });   
      
+}
+
+
+async function fetchProducts(setProducts){
+    const querySnapshot = await getDocs(collection(DATABASE, "Products"));
+    querySnapshot.forEach((doc) => {
+        setProducts((old) => {return({
+            ...old,[doc.id]: doc.data()
+        })})
+
+    });
+}
+
+
+async function deleteProduct(product){
+    await deleteDoc(doc(DATABASE, "Products", product))
 }
 
 export function errorCatcher(error,setErrorTransfer){
@@ -113,4 +131,4 @@ export function clearError(setErrorTransfer){
 
 
 
-export {addProductInfoToDatabase, uploadfile, deleteFile}
+export {addProductInfoToDatabase, uploadfile, deleteFile, fetchProducts}
