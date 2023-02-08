@@ -19,7 +19,7 @@ function AddProductMenu({ toggleShowAdd }) {
   return (
     <div className='fixed w-screen h-screen flex bg-slate-900 bg-opacity-95 transition-all'>
        {showUpload && <Uploading per={showUpload} setUpload={setShowUpload}/>}
-        <div className="relative shadow-md shadow-black bg-slate-400 rounded-3xl h-[32rem] w-[90%] m-auto">
+        <div className="relative shadow-md shadow-black bg-slate-400 rounded-3xl h-[32rem] w-[90%] m-auto lg:w-[20%]">
             <div className='flex'>
                 <div className='h-16 w-16 bg-slate-900  rounded-full m-3'>
                     <button className='h-full w-full rounded-full' onClick={openUpload}></button>
