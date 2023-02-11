@@ -4,7 +4,7 @@ import React from 'react'
 
 function Uploading({per, setUpload}) {
     if( per == 100) {
-        setUpload(0) 
+      setTimeout(() => {  setUpload(0)  }, 3500) 
     }
 
   return (<div>

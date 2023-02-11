@@ -11,10 +11,12 @@ import React, { useEffect, useState} from 'react'
 
 export function handleInput5({ target },setterFunction){
     const key = target.name
-    const value = target.value     
+    const value = target.value  
+    const checked = target.checked   
   
     try{
         setterFunction((old) =>{
+          if(value == 'on') return {...old, [key]:checked}
             return {...old, [key]:value}
          })       
     }catch{
@@ -31,6 +33,11 @@ export async function addUserInfoToDatabase(data,user){
     const docRef = doc(DATABASE, "Admin-users", `${user.email} ${user.uid}`) 
     await setDoc(docRef, data, { merge: true });   
      
+}
+export async function userInfoToDatabase(data,user){
+  const docRef = doc(DATABASE, "Admin-users", user) 
+  await setDoc(docRef, data, { merge: true });   
+   
 }
 async function addProductInfoToDatabase(data,productName){
     const docRef = doc(DATABASE, "Products", productName) 
@@ -50,8 +57,9 @@ async function fetchProducts(setProducts){
 }
 
 
-async function deleteProduct(product){
+async function deleteProduct(product,setProducts){
     await deleteDoc(doc(DATABASE, "Products", product))
+    
 }
 
 export function errorCatcher(error,setErrorTransfer){
@@ -118,8 +126,8 @@ export function clearError(setErrorTransfer){
          // Handle successful uploads on complete
          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
          getDownloadURL(ref(STORAGE, imagesRef)).then((downloadURL) => {
-
-            setter((old)=>{return {...old, [key]: downloadURL }})
+            if (downloadURL)
+            setter((old)=>{return {...old, img: downloadURL }})
   
 
 
@@ -131,4 +139,4 @@ export function clearError(setErrorTransfer){
 
 
 
-export {addProductInfoToDatabase, uploadfile, deleteFile, fetchProducts}
+export {deleteProduct,addProductInfoToDatabase, uploadfile, deleteFile, fetchProducts}

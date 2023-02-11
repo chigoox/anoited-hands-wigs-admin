@@ -1,7 +1,7 @@
 import SideBar from '../src/Componets/SideBar'
 import { useEffect, useState } from 'react'
 import './App.css'
-import {LoginPage, ManageProductPage} from './Pages/0PageExporter'
+import {LoginPage, ManageProductPage, AppointmentPage} from './Pages/0PageExporter'
 import {getDoc, doc, setDoc } from "firebase/firestore";
 import { DATABASE } from '../src/Config/Firebase'
 
@@ -43,7 +43,8 @@ function App() {
           {(loggedin && userData.adminSignedIn) && 
                               <div>
                                   <SideBar currentPage={setCurrentPage}/>
-                                {currentPage?.Products && <ManageProductPage toggleLoggledin={()=>{toggleLoggledin()}}/> }
+                                  {currentPage?.Products && <ManageProductPage toggleLoggledin={()=>{toggleLoggledin()}}/> }
+                                  {currentPage?.Appointments && <AppointmentPage userData={userData} UserID={UserID} toggleLoggledin={()=>{toggleLoggledin()}}/> }
                               </div>  
                       }
 
