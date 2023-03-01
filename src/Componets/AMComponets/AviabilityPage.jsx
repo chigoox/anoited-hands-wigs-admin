@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { userInfoToDatabase, handleInput5 } from '../../MyCodes/ed5'
+import { userInfoToDatabase, handleInput5, setAva, sortArray } from '../../MyCodes/ed5'
 import Time from './Time'
 
 function AviabilityPage({ toggleAviability, UserID, userData }) {
@@ -8,31 +8,41 @@ function AviabilityPage({ toggleAviability, UserID, userData }) {
     const [avaiable, setAvaiable] = useState()
     const hidden = (item) => {return (document.querySelector(`[name=${item}]`).checked )? true:false}
     const time = userData.time
-    const hours = Object.keys(availabilityDay).map((key) =>{
+    
+    //console.log(availableTime, availabilityDay)
+    
+    const days = Object.keys(availabilityDay).map((key) =>{
        const hours = Object.keys(availableTime).map((key1) =>{//arraym [time]
+       // console.log(key1.includes(key), key, key1)
+            
+      // console.log(Object.keys(availableTime))
+     ////  console.log(key1.includes(key), key, key1)
             if (key1.includes(key)) return(
-                availableTime[key1]
+                Object.keys(availableTime).filter(item => item.includes(key))
+                 // availableTime//[key1]
             )
            }).filter( Boolean )
 
-           const hrToOBJ = Object.assign({}, hours); 
- 
+           //console.log(hours[0])
+           const hrToOBJ = Object.assign({},sortArray(hours[0])); 
            
-        return(
+           
+           return(
             {
                [key]:  hrToOBJ
             }
-        )
+            )
     })
 
-   useEffect(()=>{
-     hours.forEach((item)=>{setAvaiable((old)=>{return {...old, [Object.keys(item)]:Object.values(item)[0]}})})
+    console.log(days)
+    useEffect(()=>{
+        days.forEach((item)=>{setAvaiable((old)=>{return {...old, [Object.keys(item)]:Object.values(item)[0]}})})
    },[availableTime,availabilityDay])
 
   
     const submit = () => {
         const data = {time: avaiable}
-        userInfoToDatabase(data, UserID)
+        setAva(data)
         toggleAviability()
       }
 
@@ -58,7 +68,7 @@ function AviabilityPage({ toggleAviability, UserID, userData }) {
                 
                 <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="monday"/>
                 <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="tuesday"/>
-                <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="wedensday"/>
+                <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="wednesday"/>
                 <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="thursday"/>
                 <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="friday"/>
                 <input onChange={(event)=>{handleInput5(event,setAvailabilityDay)}} className='h-8 w-10' type="checkbox" name="saturday"/>
