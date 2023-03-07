@@ -8,8 +8,8 @@ const OrderInfo = ({ toggleShowOrderInfo, order, setOrderData, orderName, user }
         toggleShowOrderInfo()
     }
     return (
-        <div className="fixed top-0 left-0 flex w-full h-full z-10 m-auto border border-red-900">
-            <div className='overflow-y-scroll w-fit p-10 h-[36rem] bg-pink-100 shadow-black shadow m-auto rounded-xl relative'>
+        <div className="fixed top-0 left-0 flex w-full h-full z-40 m-auto border border-red-900">
+            <div className='overflow-y-scroll w-fit p-10 h-[36rem] bg-pink-100 z-20 shadow-black shadow m-auto rounded-xl relative'>
                 <div>
                     <h1>{order.OrderNumber}</h1>
                     <h1>Total Price: {order.Total}</h1>
